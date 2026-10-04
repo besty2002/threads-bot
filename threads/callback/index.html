@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Threads 연결 코드</title>
+<style>body{font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px;color:#222}
+code{display:block;word-break:break-all;background:#f3f3f3;padding:12px;border-radius:8px;margin:12px 0}
+button{padding:10px 16px;border-radius:8px;border:0;background:#111;color:#fff;cursor:pointer}.muted{color:#777;font-size:14px}</style></head>
+<body><h1>Threads 연결 코드</h1><div id="out">확인 중…</div>
+<p class="muted">이 페이지는 코드를 화면에 보여주기만 하고, 어디에도 저장하거나 전송하지 않아요. 코드는 1시간 동안 한 번만 쓸 수 있어요.</p>
+<script>
+const p=new URLSearchParams(location.search);const out=document.getElementById('out');
+const err=p.get('error')||p.get('error_reason');
+let code=(p.get('code')||'').replace(/#_$/,'');
+history.replaceState(null,'',location.pathname);
+if(err){out.textContent='연결이 취소되었거나 실패했어요: '+(p.get('error_description')||err);}
+else if(code){out.innerHTML='<p>아래 코드를 복사해서 봇의 입력 카드에 넣어주세요.</p><code id="c"></code><p>state: <span id="s"></span></p><button id="b">코드 복사</button>';
+document.getElementById('c').textContent=code;document.getElementById('s').textContent=p.get('state')||'(없음)';
+document.getElementById('b').onclick=()=>navigator.clipboard.writeText(code).then(()=>{document.getElementById('b').textContent='복사됨';});}
+else{out.textContent='코드가 없어요. 인증 화면에서 다시 시작해 주세요.';}
+</script></body></html>
